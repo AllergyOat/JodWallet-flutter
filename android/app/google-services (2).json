@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8656224752",
+    "project_id": "saving-app-3b5e8",
+    "storage_bucket": "saving-app-3b5e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8656224752:android:673a0f577686f968d59d35",
+        "android_client_info": {
+          "package_name": "com.example.project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjHL2AZSS6wsYLHcqh-0gVn1c5PVxn-po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
