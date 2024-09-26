@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;
@@ -14,9 +15,9 @@ class MyButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Colors.deepPurpleAccent,
           borderRadius: BorderRadius.circular(10),
         ),
         child: TextButton(
@@ -24,7 +25,7 @@ class MyButton extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: const TextStyle(
+              style: GoogleFonts.outfit(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

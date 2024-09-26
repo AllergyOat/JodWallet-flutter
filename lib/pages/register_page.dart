@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../component/button.dart';
 import '../component/text_field.dart';
 
@@ -65,7 +66,11 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 const Icon(Icons.account_circle, size: 100),
                 const SizedBox(height: 20),
-                const Text('Let create account'),
+                Text('มาสร้าง account กันเถอะ!',
+                    style: GoogleFonts.notoSansThai(
+                        color: Colors.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold)),
                 const SizedBox(height: 20),
 
                 // email text field
@@ -79,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 // password text field
                 MyTextField(
                   controller: passwordTextController,
-                  hintText: "Password",
+                  hintText: "Password  (6 characters minimum)",
                   obsecureText: true,
                 ),
                 const SizedBox(height: 10),
@@ -90,23 +95,25 @@ class _RegisterPageState extends State<RegisterPage> {
                   hintText: "Confirm Password",
                   obsecureText: true,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
 
                 //sign Up button
                 MyButton(onTap: signUp, text: 'Sign Up'),
+                const SizedBox(height: 20),
 
                 // register suggestion
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Already have an account?'),
+                    Text('Already have an account?',
+                        style: GoogleFonts.outfit(color: Colors.black)),
                     TextButton(
                       onPressed: () {},
                       child: GestureDetector(
                         onTap: widget.onTap,
-                        child: const Text('Login here',
-                            style: TextStyle(
-                                color: Colors.blue,
+                        child: Text('Login here',
+                            style: GoogleFonts.outfit(
+                                color: Colors.deepPurple,
                                 fontWeight: FontWeight.bold)),
                       ),
                     ),

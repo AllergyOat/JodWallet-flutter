@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/component/text_field.dart';
 import 'package:project/component/button.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -57,10 +58,23 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.account_circle, size: 100),
-                const SizedBox(height: 20),
-                const Text('welcome to our app'),
-                const SizedBox(height: 20),
+                // const Icon(Icons.account_circle, size: 100),
+                const SizedBox(height: 10),
+                Text(
+                  'สวัสดี!',
+                  style: GoogleFonts.notoSansThai(
+                    textStyle: const TextStyle(
+                        fontSize: 40, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Welcome back, nice to meet you",
+                  style: GoogleFonts.outfit(
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
+                ),
+                const SizedBox(height: 30),
 
                 // email text field
                 MyTextField(
@@ -68,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: "Email",
                   obsecureText: false,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 11),
 
                 // password text field
                 MyTextField(
@@ -76,24 +90,32 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: "Password",
                   obsecureText: true,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 13),
 
                 //sign in button
                 MyButton(onTap: signIn, text: 'Sign in'),
+                const SizedBox(height: 20),
 
                 // register suggestion
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Don\'t have an account?'),
+                    Text(
+                      'Don\'t have an account?',
+                      style: GoogleFonts.outfit(
+                          textStyle: const TextStyle(color: Colors.black)),
+                    ),
                     TextButton(
                       onPressed: () {},
                       child: GestureDetector(
                         onTap: widget.onTap,
-                        child: const Text('Register here',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold)),
+                        child: Text(
+                          'Register here',
+                          style: GoogleFonts.outfit(
+                              textStyle: const TextStyle(
+                                  color: Colors.deepPurple,
+                                  fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ),
                   ],
