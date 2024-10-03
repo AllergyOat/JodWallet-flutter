@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:project/add_expense/add_expense.dart';
 import 'package:project/pages/main_screen.dart';
 import 'menu_screen.dart';
 
@@ -21,15 +22,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        actions: [
-          IconButton(
-            onPressed: signOut,
-            icon: const Icon(Icons.logout),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Home Page'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: signOut,
+      //       icon: const Icon(Icons.logout),
+      //     ),
+      //   ],
+      // ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         child: BottomNavigationBar(
@@ -75,9 +76,16 @@ class _HomePageState extends State<HomePage> {
             children: [
               FloatingActionButton(
                 onPressed: () {
-                  // await ModalProductForm(
-                  // dbHelper: widget.dbHelper,
-                  // ).showModalInputForm(context);
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20)),
+                      ),
+                      builder: (context) {
+                        return AddTransactionScreen();
+                      });
                 },
                 backgroundColor: const Color.fromARGB(255, 8, 117, 254),
                 child: const Icon(Icons.edit_note),
@@ -89,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           )),
-      body: index == 0 ? const MainScreen() : const MenuScreen(),
+      body: index == 0 ? TransactionListScreen(month: DateTime.now().month.toString()) : const MenuScreen(),
     );
   }
 }

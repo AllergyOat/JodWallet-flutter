@@ -5,6 +5,8 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+        backgroundColor: Color.fromARGB(255, 1, 30, 56),
+    );
   }
 }
