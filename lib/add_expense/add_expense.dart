@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/database/model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   const AddTransactionScreen({super.key});
@@ -11,13 +12,16 @@ class AddTransactionScreen extends StatefulWidget {
 
 class _AddTransactionScreenState extends State<AddTransactionScreen> {
   String type = 'saving';
+  bool showSavingText = true;
+  bool showExpenseText = false;
   TextEditingController amountController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   FirebaseService firebaseService = FirebaseService();
-  
-  String selectedCategory = 'Food';
+
+  String selectedCategory = '';
   DateTime selectDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
+
   @override
   void initState() {
     dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -28,51 +32,133 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Transaction"),
         backgroundColor: const Color.fromARGB(255, 250, 212, 79),
+        iconTheme: const IconThemeData(color: Colors.black),
+        toolbarHeight: 65,
+        centerTitle: true,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 70,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: type == 'saving'
+                      ? const Color.fromARGB(255, 1, 30, 56)
+                      : const Color.fromARGB(255, 252, 231, 141),
+                  borderRadius:
+                      const BorderRadius.only(topLeft: Radius.circular(8)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.download,
+                        color: type == 'saving' ? Colors.white : Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          type = 'saving';
+                          showSavingText = true;
+                          showExpenseText = false;
+                        });
+                      },
+                    ),
+                    if (showSavingText)
+                      const Text(
+                        'รายรับ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 70,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: type == 'expense'
+                      ? const Color.fromARGB(255, 1, 30, 56)
+                      : const Color.fromARGB(255, 252, 231, 141),
+                  borderRadius:
+                      const BorderRadius.only(topRight: Radius.circular(8)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.upload,
+                        color: type == 'expense' ? Colors.white : Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          type = 'expense';
+                          showExpenseText = true;
+                          showSavingText = false;
+                        });
+                      },
+                    ),
+                    if (showExpenseText)
+                      const Text(
+                        'รายจ่าย',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       backgroundColor: const Color.fromARGB(255, 1, 30, 56),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:
+            const EdgeInsets.only(top: 40, left: 25, right: 25, bottom: 20),
         child: Column(
           children: [
-            // type section
-            DropdownButton<String>(
-              value: type,
-              items: ['saving', 'expense'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  type = newValue!;
-                });
-              },
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                " เพิ่มรายการ",
+                style: TextStyle(fontSize: 25, color: Colors.white),
+              ),
             ),
-
+            const SizedBox(height: 30),
             // amount section
             TextFormField(
               controller: amountController,
+              style: const TextStyle(color: Colors.white, fontSize: 25),
               keyboardType: TextInputType.number,
-              textAlignVertical:
-                  TextAlignVertical.center, // Align text vertically
+              textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 filled: true,
-                fillColor:
-                    const Color.fromARGB(255, 1, 22, 41), // Background color
-                prefixIcon: const Icon(
-                  Icons.upload_sharp,
-                  color: Color.fromARGB(255, 231, 67, 49),
+                fillColor: const Color.fromARGB(255, 1, 22, 41),
+                prefixIcon: Icon(
+                  showSavingText ? Icons.download : Icons.upload,
+                  color: showSavingText
+                      ? const Color.fromARGB(255, 0, 128, 0) // Green color
+                      : const Color.fromARGB(255, 255, 0, 0), // Red color
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
                 label: const Text(
-                  "Amount",
-                  style: TextStyle(color: Colors.white),
+                  "ระบุจำนวน ฿‎",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 25,
+                  ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(vertical: 45),
               ),
@@ -92,6 +178,18 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   initialDate: selectDate,
                   firstDate: DateTime.now().subtract(const Duration(days: 365)),
                   lastDate: DateTime.now().add(const Duration(days: 365)),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        dialogTheme: DialogTheme(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
                 if (newDate != null) {
                   dateController.text =
@@ -117,7 +215,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
             // category section
             TextFormField(
+              controller: TextEditingController(text: selectedCategory),
               textAlignVertical: TextAlignVertical.center,
+              style: const TextStyle(color: Colors.white),
               readOnly: true,
               onTap: () {
                 showModalBottomSheet(
@@ -125,6 +225,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   isDismissible: true,
                   isScrollControlled: true,
                   backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25.0),
+                    ),
+                  ),
                   builder: (context) {
                     return Container(
                       padding: const EdgeInsets.all(16.0),
@@ -211,10 +316,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
-                label: const Text(
-                  "เลือกหมวดหมู่",
-                  style: TextStyle(color: Colors.white),
-                ),
+                labelText: "เลือกหมวดหมู่",
+                labelStyle: const TextStyle(color: Colors.grey),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
                 contentPadding: const EdgeInsets.symmetric(vertical: 30),
               ),
             ),
@@ -223,15 +327,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             // description section
             TextFormField(
               controller: descriptionController,
-              style: const TextStyle(
-                  color: Colors.white), // Set text color to white
+              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 filled: true,
                 fillColor:
                     const Color.fromARGB(255, 1, 22, 41), // Background color
                 prefixIcon: const Icon(
-                  Icons
-                      .note, // You can change the icon to something related to notes
+                  Icons.note_alt_outlined,
                   color: Color.fromARGB(255, 49, 143, 231),
                 ),
                 border: OutlineInputBorder(
@@ -239,20 +341,24 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   borderSide: BorderSide.none,
                 ),
                 labelText: "เพิ่มโน้ต",
-                labelStyle: const TextStyle(color: Colors.white),
+                labelStyle: const TextStyle(color: Colors.grey),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 contentPadding: const EdgeInsets.symmetric(vertical: 30),
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 49, 143, 231),
+                minimumSize: const Size.fromHeight(60),
+              ),
               onPressed: () {
                 double amount = double.parse(amountController.text);
                 String description = descriptionController.text;
 
                 Transaction newTransaction = Transaction(
-                  id: UniqueKey().toString(), // Generate a unique id
+                  id: UniqueKey().toString(),
                   type: type,
                   amount: amount,
                   description: description,
@@ -261,9 +367,15 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 );
 
                 firebaseService.addTransaction(newTransaction);
-                Navigator.pop(context); // Return to previous screen
+                Navigator.pop(context);
               },
-              child: const Text("Add Transaction"),
+              child: Text(
+                "Add Transaction",
+                style: GoogleFonts.outfit(
+                  textStyle: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+              ),
             ),
           ],
         ),
