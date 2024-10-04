@@ -22,15 +22,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Home Page'),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: signOut,
-      //       icon: const Icon(Icons.logout),
-      //     ),
-      //   ],
-      // ),
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        actions: [
+          IconButton(
+            onPressed: signOut,
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         child: BottomNavigationBar(
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                             BorderRadius.vertical(top: Radius.circular(20)),
                       ),
                       builder: (context) {
-                        return AddTransactionScreen();
+                        return const AddTransactionScreen();
                       });
                 },
                 backgroundColor: const Color.fromARGB(255, 8, 117, 254),
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           )),
-      body: index == 0 ? TransactionListScreen(month: DateTime.now().month.toString()) : const MenuScreen(),
+      body: index == 0 ? TransactionListScreen() : const MenuScreen(),
     );
   }
 }

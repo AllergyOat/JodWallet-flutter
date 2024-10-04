@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -7,10 +8,9 @@ class FirebaseService {
     await _db.collection('transactions').add(transaction.toMap());
   }
 
-  Stream<List<Transaction>> getTransactions(String month) {
+  Stream<List<Transaction>> getTransactions() {
     return _db
         .collection('transactions')
-        .where('month', isEqualTo: month)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => Transaction.fromFirestore(doc.data()))
@@ -20,34 +20,39 @@ class FirebaseService {
 
 class Transaction {
   String? id;
-  String? month;
   String type; // 'saving' or 'expense'
   double amount;
   String description;
+  String date; 
+  String category;
 
   Transaction({
     this.id,
-    this.month,
     required this.type,
     required this.amount,
     required this.description,
+    required this.date,
+    required this.category,
   });
 
+  // Method to convert Transaction object to a map for Firestore
   Map<String, dynamic> toMap() {
     return {
-      'month': month,
+      'id': id,
       'type': type,
       'amount': amount,
       'description': description,
+      'date': date, 
+      'category': category,
     };
   }
 
+  // Factory constructor to create a Transaction from Firestore data
   Transaction.fromFirestore(Map<String, dynamic> firestoreData)
       : id = firestoreData['id'],
-        month = firestoreData['month'],
         type = firestoreData['type'],
         amount = firestoreData['amount'],
-        description = firestoreData['description'];
+        description = firestoreData['description'],
+        date = firestoreData['date'],
+        category = firestoreData['category'];
 }
-
-
