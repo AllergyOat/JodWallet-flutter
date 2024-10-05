@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/pages/transactionDetail.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project/detail/transactionDetail.dart';
 import '../database/model.dart';
 import 'package:intl/intl.dart';
+import '../detail/transactionResult.dart';
 
 class TransactionListScreen extends StatefulWidget {
   const TransactionListScreen({Key? key}) : super(key: key);
@@ -30,57 +32,117 @@ class TransactionListScreenState extends State<TransactionListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 1, 30, 56),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 250, 212, 79),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.keyboard_arrow_left,
-                color: Color.fromARGB(255, 49, 143, 231),
-                size: 30.0,
+      appBar: PreferredSize(
+        preferredSize:
+            const Size.fromHeight(100), // Adjust height for added content
+        child: AppBar(
+          backgroundColor: const Color.fromARGB(255, 250, 212, 79),
+          flexibleSpace: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.keyboard_arrow_left,
+                      color: Color.fromARGB(255, 49, 143, 231),
+                      size: 30.0,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        selectedMonth = DateTime(
+                            selectedMonth.year, selectedMonth.month - 1);
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 5),
+                  if (selectedMonth.month == DateTime.now().month &&
+                      selectedMonth.year == DateTime.now().year)
+                    const Icon(
+                      Icons.calendar_month,
+                      color: Color.fromARGB(255, 8, 117, 254),
+                      size: 20,
+                    ),
+                  const SizedBox(width: 5),
+                  Text(
+                    DateFormat('MMMM yy').format(selectedMonth),
+                    style: GoogleFonts.outfit(
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 8, 117, 254),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.keyboard_arrow_right,
+                      color: Color.fromARGB(255, 8, 117, 254),
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        selectedMonth = DateTime(
+                            selectedMonth.year, selectedMonth.month + 1);
+                      });
+                    },
+                  ),
+                ],
               ),
-              onPressed: () {
-                setState(() {
-                  selectedMonth =
-                      DateTime(selectedMonth.year, selectedMonth.month - 1);
-                });
-              },
-            ),
-            const SizedBox(width: 8),
-            if (selectedMonth.month == DateTime.now().month &&
-                selectedMonth.year == DateTime.now().year)
-              const Icon(
-                Icons.calendar_month,
-                color: Color.fromARGB(255, 49, 143, 231),
-                size: 20,
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      'สวัสดีวัยรุ่น! (ชื่อผู้ใช้)',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => TransactionResultScreen(),
+                        ),
+                      );
+                      },
+                      style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 8, 117, 254),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                          BorderRadius.circular(20), // Rounded corners
+                      ),
+                      ),
+                      child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.running_with_errors_outlined,
+                          color: Colors.white),
+                        SizedBox(width: 8),
+                        Text('ดูสรุป'),
+                      ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            const SizedBox(width: 8),
-            Text(
-              DateFormat('MMMM yy').format(selectedMonth),
-              style: const TextStyle(
-                  fontSize: 16,
-                  color: Color.fromARGB(255, 49, 143, 231),
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(
-                Icons.keyboard_arrow_right,
-                color: Color.fromARGB(255, 49, 143, 231),
-                size: 30,
-              ),
-              onPressed: () {
-                setState(() {
-                  selectedMonth =
-                      DateTime(selectedMonth.year, selectedMonth.month + 1);
-                });
-              },
-            ),
-          ],
+            ],
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20.0),
