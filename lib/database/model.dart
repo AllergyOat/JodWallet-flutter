@@ -1,20 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class FirebaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> addTransaction(Transaction transaction) async {
-    await _db.collection('transactions').add(transaction.toMap());
+    DocumentReference docRef =
+        await _db.collection('transactions').add(transaction.toMap());
+    await docRef.update({'id': docRef.id});
   }
 
   Stream<List<Transaction>> getTransactions() {
-    return _db
-        .collection('transactions')
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Transaction.fromFirestore(doc.data()))
-            .toList());
+    return _db.collection('transactions').snapshots().map((snapshot) => snapshot
+        .docs
+        .map((doc) => Transaction.fromFirestore(doc.data(), doc.id))
+        .toList());
+  }
+
+  Future<bool> deleteTransaction(Transaction transaction) async {
+    try {
+      await _db.collection('transactions').doc(transaction.id).delete();
+      print("Deleted transaction with ID: ${transaction.id} completed");
+      return true; 
+    } catch (e) {
+      print("Error deleting transaction: $e");
+      return false; 
+    }
   }
 }
 
@@ -23,7 +33,7 @@ class Transaction {
   String type; // 'saving' or 'expense'
   double amount;
   String description;
-  String date; 
+  String date;
   String category;
 
   Transaction({
@@ -35,20 +45,19 @@ class Transaction {
     required this.category,
   });
 
-  // Method to convert Transaction object to a map for Firestore
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'type': type,
       'amount': amount,
       'description': description,
-      'date': date, 
+      'date': date,
       'category': category,
     };
   }
 
-  // Factory constructor to create a Transaction from Firestore data
-  Transaction.fromFirestore(Map<String, dynamic> firestoreData)
+  Transaction.fromFirestore(
+      Map<String, dynamic> firestoreData, String documentId)
       : id = firestoreData['id'],
         type = firestoreData['type'],
         amount = firestoreData['amount'],

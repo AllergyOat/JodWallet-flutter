@@ -13,26 +13,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void signOut() {
-    FirebaseAuth.instance.signOut();
-  }
+  // void signOut() {
+  //   FirebaseAuth.instance.signOut();
+  // }
 
   int index = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        actions: [
-          IconButton(
-            onPressed: signOut,
-            icon: const Icon(Icons.logout),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Home Page'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: signOut,
+      //       icon: const Icon(Icons.logout),
+      //     ),
+      //   ],
+      // ),
       bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20)),
         child: BottomNavigationBar(
           onTap: (value) {
             setState(() {
