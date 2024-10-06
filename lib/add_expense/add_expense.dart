@@ -231,75 +231,46 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     ),
                   ),
                   builder: (context) {
+                    List<String> categories = type == 'saving'
+                        ? [
+                            'เงินเดือน',
+                            'ค่าจ้าง',
+                            'ค้าขาย, ธุรกิจ',
+                            'มีคนให้',
+                            'อื่นๆ ...'
+                          ]
+                        : [
+                            'อาหาร',
+                            'เดินทาง, รถ',
+                            'บ้าน, สาธารณูปโภค',
+                            'ของใช้จำเป็น',
+                            'ช้อปปิ้ง',
+                            'บันเทิง',
+                            'สุขภาพ',
+                            'ครอบครัว, สัตว์เลี้ยง',
+                            'ให้คนอื่น',
+                            'ท่องเที่ยว',
+                            'การศึกษา',
+                            'สินเชื่อ, บัตรเครดิต',
+                            'ออมเงิน, ลงทุน',
+                            'อื่นๆ'
+                          ];
+
                     return Container(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            title: const Text('Food'),
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = 'Food';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: const Text('Transport'),
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = 'Transport';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: const Text('Shopping'),
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = 'Shopping';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: const Text('Entertainment'),
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = 'Entertainment';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: const Text('Health'),
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = 'Health';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: const Text('Education'),
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = 'Education';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            title: const Text('Other'),
-                            onTap: () {
-                              setState(() {
-                                selectedCategory = 'Other';
-                              });
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
+                        children: categories
+                            .map((category) => ListTile(
+                                  title: Text(category),
+                                  onTap: () {
+                                    setState(() {
+                                      selectedCategory = category;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                ))
+                            .toList(),
                       ),
                     );
                   },

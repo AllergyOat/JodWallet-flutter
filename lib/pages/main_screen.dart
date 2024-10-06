@@ -98,7 +98,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                   const Padding(
                     padding: EdgeInsets.only(left: 16.0),
                     child: Text(
-                      'สวัสดีวัยรุ่น! (ชื่อผู้ใช้)',
+                      'สวัสดีวัยรุ่น!',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -423,7 +423,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                             ),
                                           ),
                                           Text(
-                                            '+${transaction.amount}',
+                                            '${transaction.amount}',
                                             style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
