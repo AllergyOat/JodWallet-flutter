@@ -59,7 +59,7 @@ class TransactionDetailScreen extends StatelessWidget {
                     if (success) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                            content: Text('Transaction deleted successfully.')),
+                            content: Text('ลบรายการนี้เรียบร้อยแล้ว')),
                       );
                       Navigator.pop(context); // Go back after deletion
                     } else {
