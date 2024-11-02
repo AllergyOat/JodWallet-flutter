@@ -10,12 +10,12 @@ Mebudget helps users manage their expenses by tracking their income and expenses
   3) Authentication: Firebase Authentication
 
 ## Screenshots
-<img src ="![Screenshot 2024-11-02 144132](https://github.com/user-attachments/assets/7171c667-3cd8-402c-b45b-cc1b6831a431)" width="150" height="350">
+<img src="https://github.com/user-attachments/assets/7171c667-3cd8-402c-b45b-cc1b6831a431" alt="LoginPage" width="500" height="300">
 <img src="" width="150" height="350">
 <img src="" width="150" height="350">
 
 ## How to setup
-- Download and install Android Studio on your computer.
+Download and install Android Studio on your computer.
    1) Clone the repository:
       ```
       git clone https://github.com/AllergyOat/MeBudget-flutter.git
