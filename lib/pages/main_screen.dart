@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project/detail/transactionDetail.dart';
 import '../database/model.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +35,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
       backgroundColor: const Color.fromARGB(255, 1, 30, 56),
       appBar: PreferredSize(
         preferredSize:
-            const Size.fromHeight(100), // Adjust height for added content
+            const Size.fromHeight(100),
         child: AppBar(
           backgroundColor: const Color.fromARGB(255, 250, 212, 79),
           flexibleSpace: Column(
@@ -110,30 +111,30 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                     padding: const EdgeInsets.only(right: 16.0),
                     child: ElevatedButton(
                       onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                        builder: (context) => TransactionResultScreen(),
-                        ),
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TransactionResultScreen(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 8, 117, 254),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                          BorderRadius.circular(20), // Rounded corners
-                      ),
+                        backgroundColor: const Color.fromARGB(255, 8, 117, 254),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 25, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(20), // Rounded corners
+                        ),
                       ),
                       child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.running_with_errors_outlined,
-                          color: Colors.white),
-                        SizedBox(width: 8),
-                        Text('ดูสรุป'),
-                      ],
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.running_with_errors_outlined,
+                              color: Colors.white),
+                          SizedBox(width: 8),
+                          Text('ดูสรุป'),
+                        ],
                       ),
                     ),
                   ),
@@ -153,7 +154,13 @@ class TransactionListScreenState extends State<TransactionListScreen> {
               return Center(child: Text('Error: ${snapshot.error}'));
             }
             if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: Lottie.network(
+                  'https://lottie.host/06d110a2-f179-4d17-b851-dd812a9b03f8/K0F0uYiBjP.json',
+                  width: 150,
+                  height: 150,
+                ),
+              );
             }
 
             List<Transaction> transactions = snapshot.data as List<Transaction>;
@@ -405,9 +412,11 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Icon(
-                                            Icons.category,
-                                            color: Color.fromARGB(
+                                          Icon(
+                                            transaction.type == 'saving'
+                                                ? Icons.savings
+                                                : Icons.money_off,
+                                            color: const Color.fromARGB(
                                                 255, 111, 130, 148),
                                             size: 25,
                                           ),

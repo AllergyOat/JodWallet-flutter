@@ -13,8 +13,9 @@ class TransactionDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaction Details'),
-        backgroundColor: const Color.fromARGB(255, 1, 30, 56),
+        title: const Text('รายละเอียดรายการนี้', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        backgroundColor: const Color.fromARGB(255, 250, 212, 79),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       backgroundColor: const Color.fromARGB(255, 1, 30, 56),
       body: Padding(
@@ -24,61 +25,97 @@ class TransactionDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Description: ${transaction.description}',
+              'โน้ต : ${transaction.description}',
               style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
             const SizedBox(height: 10),
             Text(
-              'Amount: \$${transaction.amount}',
+              'จำนวนเงิน : \$${transaction.amount}',
               style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
             const SizedBox(height: 10),
             Text(
-              'Type: ${transaction.type}',
+              'ประเภท : ${transaction.type}',
               style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
             const SizedBox(height: 10),
             Text(
-              'Category: ${transaction.category}',
+              'หมวดหมู่ : ${transaction.category}',
               style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
             const SizedBox(height: 10),
             Text(
-              'Date: ${transaction.date}',
+              'วันที่ : ${transaction.date}',
               style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
             const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: () async {
-                  if (transaction.id != null) {
-                    print(
-                        'Deleting transaction with ID: ${transaction.id}'); // Debugging line
-                    bool success =
-                        await firebaseService.deleteTransaction(transaction);
-                    if (success) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('ลบรายการนี้เรียบร้อยแล้ว')),
+                  bool confirmDelete = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        content: const Text(
+                            'คุณแน่ใจว่าจะลบรายการนี้ใช่หรือไม่',
+                            style: TextStyle(fontWeight: FontWeight.w600)),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                            child: const Text('ยกเลิก',
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                            },
+                            child: const Text(
+                              'ยืนยัน',
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
                       );
-                      Navigator.pop(context); // Go back after deletion
+                    },
+                  );
+
+                  if (confirmDelete) {
+                    if (transaction.id != null) {
+                      bool success =
+                          await firebaseService.deleteTransaction(transaction);
+                      if (success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('ลบรายการนี้เรียบร้อยแล้ว')),
+                        );
+                        Navigator.pop(context); // Go back after deletion
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Failed to delete transaction.')),
+                        );
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                            content: Text('Failed to delete transaction.')),
+                            content: Text('Transaction ID is missing.')),
                       );
                     }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Transaction ID is missing.')),
-                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
+                  backgroundColor: Colors.red,
                 ),
-                child: const Text('Delete Transaction'),
+                child: const Text('ลบรายการนี้'),
               ),
             ),
           ],

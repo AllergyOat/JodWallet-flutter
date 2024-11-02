@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project/auth/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:project/pages/home_page.dart';
+import 'package:project/splashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthPage(),
+      home: SplashScreen(),
     );
   }
 }

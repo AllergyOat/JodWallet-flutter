@@ -17,35 +17,54 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordTextController = TextEditingController();
   final confirmPasswordTextController = TextEditingController();
 
-  // sign up user
+  // Regular expression for email validation
+  final RegExp emailRegExp = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+
+  // Sign up user
   void signUp() async {
     // show loading circle
     showDialog(
         context: context,
         builder: (context) => const Center(child: CircularProgressIndicator()));
 
+    // Validate email format
+    if (!emailRegExp.hasMatch(emailTextController.text)) {
+      Navigator.pop(context);
+      displayMessage('อีเมลไม่ถูกต้อง');
+      return;
+    }
+
+    // Validate password length
+    if (passwordTextController.text.length < 6) {
+      Navigator.pop(context);
+      displayMessage('กรุณากรอกรหัสผ่านให้ครบ 6 ตัวอักษรขึ้นไป');
+      return;
+    }
+
+    // Validate if passwords match
     if (passwordTextController.text != confirmPasswordTextController.text) {
       Navigator.pop(context);
-      displayMessage('Password does not match');
+      displayMessage('รหัสผ่านไม่ตรงกัน');
       return;
     }
 
     try {
+      // Attempt to create user with email and password
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailTextController.text,
         password: passwordTextController.text,
       );
 
-      // pop the loading circle
+      // Pop the loading circle
       if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
-      // display error message
+      // Display error message
       displayMessage(e.code);
     }
   }
 
-// display a dialog message to user
+  // Display a dialog message to user
   void displayMessage(String message) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -56,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor:  Color.fromARGB(255, 1, 30, 56),
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -64,16 +83,16 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.account_circle, size: 100),
+                const Icon(Icons.account_circle, size: 100, color: Colors.white),
                 const SizedBox(height: 20),
                 Text('มาสร้าง account กันเถอะ!',
                     style: GoogleFonts.notoSansThai(
-                        color: Colors.black,
+                        color: const Color.fromARGB(255, 255, 255, 255),
                         fontSize: 30,
                         fontWeight: FontWeight.bold)),
                 const SizedBox(height: 20),
 
-                // email text field
+                // Email text field
                 MyTextField(
                   controller: emailTextController,
                   hintText: "Email",
@@ -81,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 10),
 
-                // password text field
+                // Password text field
                 MyTextField(
                   controller: passwordTextController,
                   hintText: "Password  (6 characters minimum)",
@@ -89,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 10),
 
-                // confirm password text field
+                // Confirm password text field
                 MyTextField(
                   controller: confirmPasswordTextController,
                   hintText: "Confirm Password",
@@ -97,23 +116,23 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 15),
 
-                //sign Up button
+                // Sign Up button
                 MyButton(onTap: signUp, text: 'Sign Up'),
                 const SizedBox(height: 20),
 
-                // register suggestion
+                // Register suggestion
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Already have an account?',
-                        style: GoogleFonts.outfit(color: Colors.black)),
+                        style: GoogleFonts.outfit(color: const Color.fromARGB(255, 255, 255, 255))),
                     TextButton(
                       onPressed: () {},
                       child: GestureDetector(
                         onTap: widget.onTap,
                         child: Text('Login here',
                             style: GoogleFonts.outfit(
-                                color: Colors.deepPurple,
+                                color: Colors.blue,
                                 fontWeight: FontWeight.bold)),
                       ),
                     ),

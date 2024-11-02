@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project/add_expense/add_expense.dart';
 import 'package:project/pages/main_screen.dart';
@@ -13,24 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // void signOut() {
-  //   FirebaseAuth.instance.signOut();
-  // }
-
   int index = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Home Page'),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: signOut,
-      //       icon: const Icon(Icons.logout),
-      //     ),
-      //   ],
-      // ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(20)),
         child: BottomNavigationBar(
@@ -62,7 +47,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(
                 Icons.person,
               ),
-              label: 'ตัวฉัน',
+              label: 'เมนู',
             ),
           ],
         ),

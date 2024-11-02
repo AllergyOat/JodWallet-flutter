@@ -17,7 +17,7 @@ class MyButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: Colors.deepPurpleAccent,
+          color: const Color.fromARGB(255, 250, 212, 79),
           borderRadius: BorderRadius.circular(10),
         ),
         child: TextButton(
@@ -26,7 +26,7 @@ class MyButton extends StatelessWidget {
             child: Text(
               text,
               style: GoogleFonts.outfit(
-                color: Colors.white,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

@@ -25,6 +25,7 @@ class _MyTextFieldState extends State<MyTextField> {
       child: TextField(
         controller: widget.controller,
         obscureText: widget.obsecureText,
+        style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -32,10 +33,12 @@ class _MyTextFieldState extends State<MyTextField> {
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
-          fillColor: Colors.white,
+          fillColor: const Color.fromARGB(255, 24, 51, 75),
           filled: true,
-          hintText: widget.hintText, 
-          hintStyle: GoogleFonts.outfit(color: Colors.grey,),
+          hintText: widget.hintText,
+          hintStyle: GoogleFonts.outfit(
+            color: Colors.grey,
+          ),
         ),
       ),
     );
