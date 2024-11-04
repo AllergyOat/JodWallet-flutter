@@ -49,7 +49,7 @@ Download and install Android Studio on your computer.
   3) Run the app:
       ```
       flutter pub run
-By following these steps, you should be able to run the Habit It app on your Android device or emulator without any issues. However, keep in mind that the exact process may vary depending on your specific setup and the version of Android Studio you are using.
+By following these steps, you should be able to run the project. However, keep in mind that the exact process may vary depending on your specific setup and the version of Android Studio you are using.
 
 ## Contributions
    Contributions are welcome! Please fork the repository and create a pull request with your changes. 
