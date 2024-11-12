@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: GestureDetector(
                         onTap: widget.onTap,
                         child: Text(
-                          'Register here',
+                          'Register here 555',
                           style: GoogleFonts.outfit(
                               textStyle: const TextStyle(
                                   color: Color.fromARGB(255, 49, 143, 231),
